@@ -1,0 +1,24 @@
+{
+    "name": "buy-me-a-coffee",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "compile": "npx hardhat compile",
+        "run": "npx hardhat run scripts/buy-coffee.js",
+        "clean": "rm -rf ./artifacts ./cache ./typechain "
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "devDependencies": {
+        "@nomicfoundation/hardhat-toolbox": "^2.0.2",
+        "eslint": "^8.37.0",
+        "hardhat": "^2.13.0",
+        "prettier": "^2.8.7"
+    },
+    "dependencies": {
+        "dotenv": "^16.0.3",
+        "ethereum-cryptography": "^1.2.0"
+    }
+}
