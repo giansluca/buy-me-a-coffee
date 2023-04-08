@@ -4,6 +4,7 @@
     "description": "",
     "main": "index.js",
     "scripts": {
+        "test": "npx hardhat test",
         "compile": "npx hardhat compile",
         "run": "npx hardhat run scripts/buy-coffee.js",
         "clean": "rm -rf ./artifacts ./cache ./typechain "
