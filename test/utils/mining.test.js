@@ -1,7 +1,6 @@
-const SHA256 = require("crypto-js/sha256");
 const Hex = require("crypto-js/enc-hex");
-
 const { expect } = require("chai");
+
 const { addTransaction, mine, mempool, blocks, TARGET_DIFFICULTY } = require("../../utils/mining");
 
 describe("Mining", function () {
