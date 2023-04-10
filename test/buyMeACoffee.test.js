@@ -50,7 +50,7 @@ describe("BuyMeACoffee", function () {
             const memos = await buyMeACoffee.getMemos();
 
             // Then
-            expect(Number(balance)).to.equal(1.5);
+            expect(balance).to.equal("1.5");
             expect(memos).to.have.lengthOf(1);
         });
 
@@ -59,19 +59,29 @@ describe("BuyMeACoffee", function () {
             const { buyMeACoffee, owner, tipper1 } = await loadFixture(deployBuyMeACoffee);
             const contractAddress = buyMeACoffee.address;
 
-            // When
+            const ownerBalanceBigIntBefore = await ethers.provider.getBalance(owner.address);
+            const ownerBalanceBefore = ethers.utils.formatEther(ownerBalanceBigIntBefore);
+            console.log("Owner balance before", ownerBalanceBefore);
+
             const tip = { value: ethers.utils.parseEther("0.7") };
             await buyMeACoffee.connect(tipper1).buyCoffee("Vitto", "Amazing teacher :)", tip);
             const balanceBigIntBefore = await ethers.provider.getBalance(contractAddress);
             const balanceBefore = ethers.utils.formatEther(balanceBigIntBefore);
+            console.log("Contract balance before", balanceBefore);
 
+            // When
             await buyMeACoffee.connect(owner).withdrawTips();
+
+            const ownerBalanceBigIntAfter = await ethers.provider.getBalance(owner.address);
+            const ownerBalanceAfter = ethers.utils.formatEther(ownerBalanceBigIntAfter);
+            console.log("Owner balance after", ownerBalanceAfter);
 
             const balanceBigIntAfter = await ethers.provider.getBalance(contractAddress);
             const balanceAfter = ethers.utils.formatEther(balanceBigIntAfter);
+            console.log("Contract balance after", balanceAfter);
 
-            expect(Number(balanceBefore)).to.equal(0.7);
-            expect(Number(balanceAfter)).to.equal(0.0);
+            expect(balanceBefore).to.equal("0.7");
+            expect(balanceAfter).to.equal("0.0");
         });
     });
 });

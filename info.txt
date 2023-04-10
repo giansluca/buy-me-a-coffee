@@ -2,5 +2,5 @@
 npx hardhat :                                                   create sample project
 npx hardhat compile :                                           compile contract
 npx hardhat run scripts/buy-coffee.js :                         run script       
-npx hardhat run scripts/deploy.js --network <network-name> :    deploy to a network    
+npx hardhat run scripts/deploy.js --network goerli :            deploy to a network    
 npx hardhat test :                                              run tests

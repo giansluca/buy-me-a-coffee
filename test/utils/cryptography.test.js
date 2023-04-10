@@ -9,7 +9,7 @@ const {
     getAddressFromPublicKey,
 } = require("../../utils/cryptography");
 
-describe("Cryptography test", function () {
+describe("Cryptography", function () {
     describe("Hash Message", function () {
         it("should hash a message with sha256 algorithm", async function () {
             // Given
