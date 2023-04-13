@@ -11,7 +11,7 @@ class Blockchain {
             const previousBlock = this.chain[this.chain.length - 1];
             previousHash = previousBlock.toHash();
         } else {
-            previousHash = null;
+            previousHash = "genesis";
         }
 
         block.previousHash = previousHash != null ? Hex.stringify(previousHash) : null;

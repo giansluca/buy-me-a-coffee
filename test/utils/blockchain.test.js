@@ -56,15 +56,12 @@ describe("Blockchain", function () {
         blockchain.addBlock(genesisBlock);
         blockchain.addBlock(block1);
 
-        const initialGenesisHash = genesisBlock.toHash();
-        const initialBlock1Hash = block1.toHash();
+        expect(block1.previousHash).to.be.equal(Hex.stringify(genesisBlock.toHash()));
 
         // When
         genesisBlock.data = 10;
-        const newHash = genesisBlock.toHash();
 
         // Then
-        expect(Hex.stringify(initialGenesisHash)).to.be.not.equal(Hex.stringify(newHash));
-        expect(Hex.stringify(initialBlock1Hash)).to.be.not.equal(Hex.stringify(newHash));
+        expect(block1.previousHash).to.be.not.equal(Hex.stringify(genesisBlock.toHash()));
     });
 });
