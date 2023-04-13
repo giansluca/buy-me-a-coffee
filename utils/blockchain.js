@@ -1,10 +1,21 @@
-const Block = require("./block");
+const Hex = require("crypto-js/enc-hex");
 
 class Blockchain {
     constructor() {
-        this.chain = [
-            /* TODO: Create the genesis block here */
-        ];
+        this.chain = [];
+    }
+
+    addBlock(block) {
+        let previousHash;
+        if (this.chain.length > 0) {
+            const previousBlock = this.chain[this.chain.length - 1];
+            previousHash = previousBlock.toHash();
+        } else {
+            previousHash = null;
+        }
+
+        block.previousHash = previousHash != null ? Hex.stringify(previousHash) : null;
+        this.chain.push(block);
     }
 }
 

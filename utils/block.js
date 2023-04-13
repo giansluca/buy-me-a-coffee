@@ -5,7 +5,8 @@ class Block {
     }
 
     toHash() {
-        return SHA256(this.data);
+        if (this.previousHash) return SHA256(this.previousHash + JSON.stringify(this.data));
+        else return SHA256(JSON.stringify(this.data));
     }
 }
 
