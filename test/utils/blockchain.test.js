@@ -1,4 +1,5 @@
 const { expect } = require("chai");
+const SHA256 = require("crypto-js/sha256");
 const Hex = require("crypto-js/enc-hex");
 const Blockchain = require("../../utils/Blockchain");
 const Block = require("../../utils/Block");
@@ -63,5 +64,54 @@ describe("Blockchain", function () {
 
         // Then
         expect(block1.previousHash).to.be.not.equal(Hex.stringify(genesisBlock.toHash()));
+    });
+
+    it("should validate the chain", () => {
+        // Given
+        const blockchain = new Blockchain();
+        blockchain.addBlock(new Block("genesis"));
+        blockchain.addBlock(new Block("Dan"));
+        blockchain.addBlock(new Block("Peter"));
+        blockchain.addBlock(new Block("James"));
+
+        // When
+        const isValid = blockchain.isValid();
+
+        // Then
+        expect(isValid).to.be.true;
+    });
+
+    it("should not be considered valid tampering with a previousHash", function () {
+        // Given
+        const blockchain = new Blockchain();
+        blockchain.addBlock(new Block("genesis"));
+        blockchain.addBlock(new Block("Dan"));
+        blockchain.addBlock(new Block("Peter"));
+        blockchain.addBlock(new Block("James"));
+
+        blockchain.chain[1].previousHash = Hex.stringify(SHA256("gibberish"));
+
+        // When
+        const isValid = blockchain.isValid();
+
+        // Then
+        expect(isValid).to.be.false;
+    });
+
+    it("should not be considered valid tampering with data", function () {
+        // Given
+        const blockchain = new Blockchain();
+        blockchain.addBlock(new Block("genesis"));
+        blockchain.addBlock(new Block("Dan"));
+        blockchain.addBlock(new Block("Peter"));
+        blockchain.addBlock(new Block("James"));
+
+        blockchain.chain[0].data = "something";
+
+        // When
+        const isValid = blockchain.isValid();
+
+        // Then
+        expect(isValid).to.be.false;
     });
 });
