@@ -7,7 +7,8 @@
         "test": "npx hardhat test",
         "compile": "npx hardhat compile",
         "run-example": "npx hardhat run scripts/buy-coffee.js",
-        "clean": "rm -rf ./artifacts ./cache ./typechain "
+        "clean": "rm -rf ./artifacts ./cache ./typechain ",
+        "lint": "eslint scripts"
     },
     "keywords": [],
     "author": "",
