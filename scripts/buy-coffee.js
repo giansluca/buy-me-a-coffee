@@ -3,7 +3,7 @@ const { ethers } = require("hardhat");
 // Return the Ether balance for a given address
 async function getBalance(address) {
     const balanceBigInt = await ethers.provider.getBalance(address);
-    return ethers.utils.formatEther(balanceBigInt);
+    return ethers.formatEther(balanceBigInt);
 }
 
 // Logs the Ether balance for a list of addresses
@@ -20,7 +20,7 @@ async function printBalance(addresses) {
 // Logs the memos stored on-chain from coffee purchases
 function printMemos(memos) {
     for (const memo of memos) {
-        const date = new Date(parseInt(memo.timestamp * 1000));
+        const date = new Date(Number(memo.timestamp));
         const tipper = memo.name;
         const tipperAddress = memo.from;
         const message = memo.message;
@@ -37,17 +37,17 @@ async function main() {
     // Get the contract to deploy and deploy
     const BuyMeACoffee = await ethers.getContractFactory("BuyMeACoffee");
     const buyMeACoffee = await BuyMeACoffee.deploy();
-    await buyMeACoffee.deployed();
 
-    console.log(`BuyMeACoffee deployed to: ${buyMeACoffee.address}`);
+    const contractAddress = await buyMeACoffee.getAddress();
+    console.log(`BuyMeACoffee deployed to: ${contractAddress}`);
 
     // Check balance before coffee purchase
-    const addresses = [owner.address, tipper1.address, buyMeACoffee.address];
+    const addresses = [owner.address, tipper1.address, contractAddress];
     console.log("== start ==");
     await printBalance(addresses);
 
     // Buy to owner few coffee
-    const tip = { value: ethers.utils.parseEther("1") };
+    const tip = { value: ethers.parseEther("1") };
     await buyMeACoffee.connect(tipper1).buyCoffee("Carolina", "You are the best!", tip);
     await buyMeACoffee.connect(tipper2).buyCoffee("Vitto", "Amazing teacher :)", tip);
     await buyMeACoffee.connect(tipper3).buyCoffee("Maccio", "I love my proof of knowledge NFT", tip);

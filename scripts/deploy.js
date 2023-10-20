@@ -4,9 +4,9 @@ const { ethers } = require("hardhat");
 async function main() {
     const BuyMeACoffee = await ethers.getContractFactory("BuyMeACoffee");
     const buyMeACoffee = await BuyMeACoffee.deploy();
-    await buyMeACoffee.deployed();
+    const contractAddress = await buyMeACoffee.getAddress();
 
-    console.log(`BuyMeACoffee deployed to: ${buyMeACoffee.address}`);
+    console.log(`BuyMeACoffee deployed to: ${contractAddress}`);
 }
 
 main().catch((error) => {

@@ -12,7 +12,6 @@ describe("BuyMeACoffee", function () {
 
         const BuyMeACoffee = await ethers.getContractFactory("BuyMeACoffee");
         const buyMeACoffee = await BuyMeACoffee.deploy();
-        await buyMeACoffee.deployed();
 
         return { buyMeACoffee, owner, tipper1 };
     }
@@ -21,11 +20,11 @@ describe("BuyMeACoffee", function () {
         it("Should deploy", async function () {
             // Given
             const { buyMeACoffee } = await loadFixture(deployBuyMeACoffee);
-            const contractAddress = buyMeACoffee.address;
+            const contractAddress = await buyMeACoffee.getAddress();
 
             // When
             const balanceBigInt = await ethers.provider.getBalance(contractAddress);
-            const balance = ethers.utils.formatEther(balanceBigInt);
+            const balance = ethers.formatEther(balanceBigInt);
             const memos = await buyMeACoffee.getMemos();
 
             // Then
@@ -39,14 +38,14 @@ describe("BuyMeACoffee", function () {
         it("Should send ether and memo to contract", async function () {
             // Given
             const { buyMeACoffee, tipper1 } = await loadFixture(deployBuyMeACoffee);
-            const contractAddress = buyMeACoffee.address;
+            const contractAddress = await buyMeACoffee.getAddress();
 
             // When
-            const tip = { value: ethers.utils.parseEther("1.5") };
+            const tip = { value: ethers.parseEther("1.5") };
             await buyMeACoffee.connect(tipper1).buyCoffee("Carolina", "You are the best!", tip);
 
             const balanceBigInt = await ethers.provider.getBalance(contractAddress);
-            const balance = ethers.utils.formatEther(balanceBigInt);
+            const balance = ethers.formatEther(balanceBigInt);
             const memos = await buyMeACoffee.getMemos();
 
             // Then
@@ -57,27 +56,27 @@ describe("BuyMeACoffee", function () {
         it("Should withdraw founds", async function () {
             // Given
             const { buyMeACoffee, owner, tipper1 } = await loadFixture(deployBuyMeACoffee);
-            const contractAddress = buyMeACoffee.address;
+            const contractAddress = await buyMeACoffee.getAddress();
 
             const ownerBalanceBigIntBefore = await ethers.provider.getBalance(owner.address);
-            const ownerBalanceBefore = ethers.utils.formatEther(ownerBalanceBigIntBefore);
+            const ownerBalanceBefore = ethers.formatEther(ownerBalanceBigIntBefore);
             console.log("Owner balance before", ownerBalanceBefore);
 
-            const tip = { value: ethers.utils.parseEther("0.7") };
+            const tip = { value: ethers.parseEther("0.7") };
             await buyMeACoffee.connect(tipper1).buyCoffee("Vitto", "Amazing teacher :)", tip);
             const balanceBigIntBefore = await ethers.provider.getBalance(contractAddress);
-            const balanceBefore = ethers.utils.formatEther(balanceBigIntBefore);
+            const balanceBefore = ethers.formatEther(balanceBigIntBefore);
             console.log("Contract balance before", balanceBefore);
 
             // When
             await buyMeACoffee.connect(owner).withdrawTips();
 
             const ownerBalanceBigIntAfter = await ethers.provider.getBalance(owner.address);
-            const ownerBalanceAfter = ethers.utils.formatEther(ownerBalanceBigIntAfter);
+            const ownerBalanceAfter = ethers.formatEther(ownerBalanceBigIntAfter);
             console.log("Owner balance after", ownerBalanceAfter);
 
             const balanceBigIntAfter = await ethers.provider.getBalance(contractAddress);
-            const balanceAfter = ethers.utils.formatEther(balanceBigIntAfter);
+            const balanceAfter = ethers.formatEther(balanceBigIntAfter);
             console.log("Contract balance after", balanceAfter);
 
             expect(balanceBefore).to.equal("0.7");
