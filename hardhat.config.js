@@ -9,8 +9,8 @@ module.exports = {
     networks: {
         hardhat: {},
         goerli: {
-            url: config.secret.goerliUrl,
-            accounts: [config.secret.privateKey],
+            url: config.secret.providerUrl,
+            accounts: [config.secret.accountPrivateKey],
         },
     },
 };

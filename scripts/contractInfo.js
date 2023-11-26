@@ -7,8 +7,8 @@ async function main() {
     const contractAddress = config.contract.address;
     const contractABI = abi.abi;
 
-    const provider = new ethers.InfuraProvider("goerli", config.secret.goerliApiKey);
-    const signer = new ethers.Wallet(config.secret.privateKey, provider);
+    const provider = new ethers.InfuraProvider("goerli", config.secret.providerApiKey);
+    const signer = new ethers.Wallet(config.secret.accountPrivateKey, provider);
     const buyMeACoffee = new ethers.Contract(contractAddress, contractABI, signer);
 
     const contractBalanceBigInt = await provider.getBalance(contractAddress);

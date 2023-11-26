@@ -13,9 +13,9 @@ const config = {
         commit: process.env.APP_COMMIT,
     },
     secret: {
-        privateKey: process.env.PRIVATE_KEY,
-        goerliUrl: process.env.GOERLI_URL,
-        goerliApiKey: process.env.GOERLI_API_KEY,
+        accountPrivateKey: process.env.ACCOUNT_PRIVATE_KEY,
+        providerUrl: process.env.PROVIDER_URL,
+        providerApiKey: process.env.PROVIDER_API_KEY,
     },
     contract: {
         address: process.env.CONTRACT_ADDRESS,
